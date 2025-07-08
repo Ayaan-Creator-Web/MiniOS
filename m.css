@@ -1,0 +1,144 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: -apple-system, BlinkMacMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color: white;
+}
+
+.mac-blur-background {
+    position: relative;
+}
+
+.mac-blur-background::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url('../images/background.webp');
+    background-size: cover;
+    background-position: center;
+    filter: blur(30px);
+    transform: scale(1.05);
+    z-index: -1;
+    /* Add transition for smooth effect */
+    transition: filter 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* New class to unblur the background */
+.mac-blur-background.unblurred::before {
+    filter: blur(0px); /* Remove blur */
+    transform: scale(1); /* Reset scale to original */
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.date-time-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.date {
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 5px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.time {
+    font-size: 70px;
+    font-weight: 200;
+    letter-spacing: -2px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.input-section {
+    display: flex;
+    align-items: center;
+    width: 260px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 15px;
+}
+
+.input-field {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 16px;
+    padding: 5px 0;
+}
+
+.input-field::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 768px) {
+    .time {
+        font-size: 50px;
+    }
+    .date {
+        font-size: 18px;
+    }
+    .input-section {
+        width: 220px;
+    }
+}
+
+/* In your CSS file (e.g., style.css) */
+
+/* In your CSS file (e.g., style.css) */
+
+#taskbar {
+    position: fixed; /* Fixes it to the viewport */
+    bottom: 0; /* Positions it at the bottom */
+    left: 50%; /* Start from the middle */
+    transform: translateX(-50%); /* Pull it back by half its width to truly center */
+    width: fit-content; /* Only take up space needed by icons */
+    max-width: 90%; /* Ensure it doesn't get too wide on smaller screens */
+    background-color: rgba(50, 50, 50, 0.7); /* Dark, slightly transparent background */
+    padding: 10px 15px; /* Padding inside the taskbar */
+    display: flex;
+    justify-content: center; /* Centers the icons horizontally */
+    align-items: center; /* Vertically centers icons if they have different heights */
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.4); /* Subtle shadow above */
+    z-index: 1000; /* Ensures it stays on top of other content */
+    backdrop-filter: blur(10px); /* Mac-like blur effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari compatibility */
+    border-top-left-radius: 15px; /* Rounded top corners */
+    border-top-right-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+}
+
+#taskbar image { /* Targeting the image elements you add to the taskbar */
+    width: 50px;
+    height: 50px;
+    margin: 12px 12px; /* Increased horizontal spacing between icons */
+    border-radius: 12px; /* Slightly rounded corners for icons */
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Added box-shadow to transition */
+    /* Add a subtle box-shadow for more visibility */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    width: 50px;height: 50px;
+}
+
+#taskbar image:hover {
+    transform: translateY(-12px) scale(1.15); /* "Pop-up" and slight scale effect on hover */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* Enhanced shadow on hover */
+}
