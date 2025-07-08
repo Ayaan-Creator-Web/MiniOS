@@ -1,154 +1,135 @@
-var email;
-var password;
-var clicked;
-var username;
-var savedusername = '';
-
-let apps = JSON.parse(localStorage.getItem('apps')) || [{
-    name: 'Google',
-    url: 'https://bing.com/search?q=search',
-    //url: 'https://ayaan-creator-web.github.io/MiniOS/hi.html'
-    image: 'google.jpg'
-}, {
-    name: 'Timely',
-    url: 'https://www.timelypro.online',
-    image: 'timely.jpg'
-}, {
-    name: 'BuzzLine',
-    url: 'https://ayaan-creator-web.github.io/BuzzLine/',
-    image: 'buzzline.jpg'
-}/*, {
-    name: 'Khan',
-    url: 'https://www.khanacademy.org',
-}*/, {
-    name: 'Terminal',
-    url: 'https://ayaan-creator-web.github.io/CMD-Prompt/',
-    image: 'terminal.png'
-}, {
-    name: 'Help',
-    url: 'https://ayaan-creator-web.github.io/MiniOS/hi.html',
-    image: 'help.png'
-}, {
-    name: 'Profile',
-    url: 'https://ayaan-creator-web.github.io/MiniOS/profile.html',
-    image: 'profile.png'
-}];
-
-const verifypath = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-
-let users = [{
-    username: 'Ayaan',
-    email: 'ayaan.khalique3@gmail.com',
-    password: 'sd',
-}, {
-    username: 'Khalique',
-    email: 'khaliquer@gmail.com',
-    password: 'Oyster@22',
-}, {
-    username: 'Wasiullah',
-    email: '',
-    password: 'sd'
-}];
-
-document.getElementById('password').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') signin();
-});
-
-document.addEventListener('keydown', event => {
-    if (event.key.toLowerCase() === 'l' && event.ctrlKey) {
-        event.preventDefault();
-        window.location.href='';
-    }
-});
-const loginSound = new Audio('startup.mp3');
-
-async function signin() {
-    const password = document.getElementById('password').value;
-    const usernameOrEmail = document.getElementById('username').value;
-
-    const user = users.find(u =>
-        u.username === usernameOrEmail || u.email === usernameOrEmail
-    );
-
-    if (!user) {
-        alert('Please Check Username or Email');
-        return;
-    }
-
-    if (user.password !== password) {
-        alert('Please Check Email or Password');
-        return;
-    }
-    localStorage.setItem('miniOS-User', JSON.stringify(user));
-    start();
-    document.body.classList.add('unblurred');
-
-    await delay(8);
-}
-
-function CheckUserExist(email) {
-    let doesExist = false;
-    users.forEach((check) => {
-        if (check.email == email) {
-            doesExist = true;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniOS Login</title>
+    <link rel="stylesheet" href="m.css" />
+    <style>
+        #taskbar {
+        position: fixed;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(12px);
+        padding: 8px 16px;
+        border-radius: 20px;
+        display: flex;
+        gap: 16px;
+        z-index: 999;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-    });
-    return doesExist;
-}
 
-async function start() {
-    tako.log('MiniOS Started');
-    await loginSound.play();
-    document.body.innerHTML = `
-        <div id="taskbar">
+        #taskbar img {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+
+        #taskbar img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        #app {
+            margin-top: 20px;
+            width: 100%;
+            height: calc(100vh - 80px);
+            border: none;
+        }
+
+        .welcome-message {
+            position: fixed;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 2s ease-in-out, visibility 2s ease-in-out;
+            z-index: 1000;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .welcome-message.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body class="mac-blur-background">
+    <script src="https://ayaan-creator-web.github.io/Libraries/tako.js"></script>
+    <script async src="https://cse.google.com/cse.js?cx=a41e3e3b74f504ac5"></script>
+    <div class="login-container">
+        <div class="date-time-section">
+            <div class="date" id="current-date"></div>
+            <div class="time" id="current-time"></div>
         </div>
-        <iframe id="app" style="width: 100%; height: 90vh; border: none;"></iframe>
-    `;
-    showApps();
-    document.addEventListener('keydown', event => {
-        if (event.key.toLowerCase() === 'l' && event.ctrlKey) {
-            event.preventDefault();
-            window.location.href='';
+
+        <div class="input-section">
+            <input type="text" id="username" placeholder="Username" class="input-field"/>
+        </div>
+
+        <div class="input-section">
+            <input type="password" id="password" placeholder="Password" class="input-field" />
+        </div>
+    </div>
+
+    <div id="welcomeMessage" class="welcome-message">
+        Welcome, <span id="messageUsername"></span>!
+    </div>
+
+    <script>
+        document.getElementById('username').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('password').focus();
+        });
+        async function updateDateTime() {
+            const now = new Date();
+
+            const optionsDate = { weekday: 'long', day: 'numeric', month: 'long' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', optionsDate);
+
+            const optionsTime = { hour: 'numeric', minute: '2-digit', hour12: false };
+            let timeString = now.toLocaleTimeString('en-US', optionsTime);
+
+            timeString = timeString.replace(/ (AM|PM)/i, '');
+
+            document.getElementById('current-time').textContent = timeString;
         }
-    });
-}
 
-function showApps() {
-    const taskbar = document.getElementById('taskbar');
-    taskbar.innerHTML = ''; // clear previous icons
-
-    apps.forEach((app) => {
-        const icon = document.createElement('img');
-        icon.src = app.image;
-        icon.alt = app.name;
-        icon.title = app.name;
-
-        icon.addEventListener('click', () => {
-            const appIframe = document.getElementById('app');
-            if (appIframe.src === app.url || appIframe.src === app.url + '/') {
-                appIframe.src = 'about:blank';
-            } else {
-                appIframe.src = app.url;
+        async function updateTimeLoop() {
+            while (document.getElementById('current-time')) {
+                updateDateTime();
+                await delay(1000);
             }
+        }
+
+        updateTimeLoop();
+
+        updateDateTime();
+
+        document.getElementById('username').addEventListener('focus', function() {
+            this.parentNode.style.boxShadow = '0 0 0 2px rgba(255, 255, 255, 0.5)';
         });
 
-        taskbar.appendChild(icon);
-    });
-}
+        document.getElementById('username').addEventListener('blur', function() {
+            this.parentNode.style.boxShadow = 'none';
+        });
 
-String.prototype.startApp = function() {
-    const appIframe = document.getElementById('app'); 
+        document.getElementById('password').addEventListener('focus', function() {
+            this.parentNode.style.boxShadow = '0 0 0 2px rgba(255, 255, 255, 0.5)';
+        });
 
-    apps.forEach((app) => {
-        if (app.name == this) {
-            if (appIframe.src === app.url || appIframe.src === app.url + '/') {
-                appIframe.src = 'about:blank';
-            }
-            else {
-                appIframe.src = app.url;
-            }
-        }
-    });
-}
-
-function delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+        document.getElementById('password').addEventListener('blur', function() {
+            this.parentNode.style.boxShadow = 'none';
+        });
+        function delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+    </script>
+    <script src="m.js"></script>
+</body>
+</html>
