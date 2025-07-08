@@ -8,30 +8,30 @@ let apps = JSON.parse(localStorage.getItem('apps')) || [{
     name: 'Google',
     url: 'https://bing.com/search?q=search',
     //url: 'https://ayaan-creator-web.github.io/MiniOS/hi.html'
-    image: '/images/google.jpg'
+    image: 'google.jpg'
 }, {
     name: 'Timely',
     url: 'https://www.timelypro.online',
-    image: '/images/timely.jpg'
+    image: 'timely.jpg'
 }, {
     name: 'BuzzLine',
     url: 'https://ayaan-creator-web.github.io/BuzzLine/',
-    image: '/images/buzzline.jpg'
+    image: 'buzzline.jpg'
 }/*, {
     name: 'Khan',
     url: 'https://www.khanacademy.org',
 }*/, {
     name: 'Terminal',
     url: 'https://ayaan-creator-web.github.io/CMD-Prompt/',
-    image: '/images/terminal.png'
+    image: 'terminal.png'
 }, {
     name: 'Help',
     url: 'https://ayaan-creator-web.github.io/MiniOS/hi.html',
-    image: '/images/help.png'
+    image: 'help.png'
 }, {
     name: 'Profile',
     url: 'https://ayaan-creator-web.github.io/MiniOS/profile.html',
-    image: '/images/profile.png'
+    image: 'profile.png'
 }];
 
 const verifypath = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -60,7 +60,7 @@ document.addEventListener('keydown', event => {
         window.location.href='';
     }
 });
-const loginSound = new Audio('../audio/startup.mp3');
+const loginSound = new Audio('startup.mp3');
 
 async function signin() {
     const password = document.getElementById('password').value;
