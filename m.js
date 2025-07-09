@@ -14,19 +14,19 @@ let apps = JSON.parse(localStorage.getItem('apps')) || [{
     image: 'timely.jpg'
 }, {
     name: 'BuzzLine',
-    url: 'https://ayaan-creator-web.github.io/BuzzLine/',
+    url: 'https://staklabs.github.io/BuzzLine/',
     image: 'buzzline.jpg'
 }, {
     name: 'Terminal',
-    url: 'https://ayaan-creator-web.github.io/CMD-Prompt/',
+    url: 'https://staklabs.github.io/CMD-Prompt/',
     image: 'terminal.png'
 }, {
     name: 'Help',
-    url: 'https://ayaan-creator-web.github.io/MiniOS/hi.html',
+    url: 'https://staklabs.github.io/MiniOS/hi.html',
     image: 'help.png'
 }, {
     name: 'Profile',
-    url: 'https://ayaan-creator-web.github.io/MiniOS/profile.html',
+    url: 'https://staklabs.github.io/MiniOS/profile.html',
     image: 'profile.png'
 }];
 
